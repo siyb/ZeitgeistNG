@@ -2,6 +2,7 @@ package com.sphericalelephant.zeitgeistng.fragment.imagegrid;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.sphericalelephant.zeitgeistng.R;
 import com.sphericalelephant.zeitgeistng.data.Item;
+import com.sphericalelephant.zeitgeistng.fragment.imagedetail.ImageDetailFragment;
 import com.sphericalelephant.zeitgeistng.service.buider.WebRequestBuilder;
 import com.sphericalelephant.zeitgeistng.view.SquaredImageView;
 import com.squareup.picasso.Picasso;
@@ -24,7 +26,7 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.View
 
 	private ArrayList<Item> items = new ArrayList<>();
 	private Context context;
-
+	private OnImageClickedListener onImageClickedListener;
 
 	public ImageGridAdapter(Context context) {
 		this.context = context;
@@ -38,13 +40,21 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.View
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
-		Item i = items.get(position);
+		final Item i = items.get(position);
 		Item.Image image = i.getImage();
 
 		if (i.getType() == Item.ItemType.IMAGE || i.getType() == Item.ItemType.VIDEO) {
 			String url = Uri.parse(WebRequestBuilder.URL).buildUpon().appendPath(image.getThumbnailUrl()).build().toString();
 			LOGGER.info("Loading image with url: " + url);
 			Picasso.with(context).load(url).into(holder.imageView);
+			holder.imageView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (onImageClickedListener != null) {
+						onImageClickedListener.onImageClicked(i);
+					}
+				}
+			});
 		}
 		// TODO: handle video, audio and link items
 	}
@@ -66,5 +76,13 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.View
 			super(itemView);
 			imageView = (SquaredImageView) itemView;
 		}
+	}
+
+	public void setOnImageClickedListener(@Nullable OnImageClickedListener onImageClickedListener) {
+		this.onImageClickedListener = onImageClickedListener;
+	}
+
+	public interface OnImageClickedListener {
+		void onImageClicked(Item item);
 	}
 }

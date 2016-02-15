@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sphericalelephant.zeitgeistng.R;
+import com.sphericalelephant.zeitgeistng.data.Item;
 import com.sphericalelephant.zeitgeistng.data.Items;
+import com.sphericalelephant.zeitgeistng.fragment.imagedetail.ImageDetailFragment;
 import com.sphericalelephant.zeitgeistng.service.buider.WebRequestBuilder;
 import com.sphericalelephant.zeitgeistng.service.processor.ItemsProcessor;
 
@@ -19,10 +21,12 @@ import at.diamonddogs.data.dataobjects.WebRequest;
 import at.diamonddogs.service.processor.ServiceProcessorMessageUtil;
 import at.diamonddogs.ui.fragment.HttpFragment;
 
-public class ImageGridFragment extends HttpFragment {
+public class ImageGridFragment extends HttpFragment implements ImageGridAdapter.OnImageClickedListener {
 	// TODO: maybe make this configurable
 	private static final int SPAN_COUNT = 5;
 	private static final int ITEMS_PER_PAGE = 100;
+
+	private ImageDetailFragment detailFragment = ImageDetailFragment.newInstance();
 
 	private RecyclerView recyclerView;
 	private GridLayoutManager gridLayoutManager;
@@ -41,6 +45,7 @@ public class ImageGridFragment extends HttpFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		adapter = new ImageGridAdapter(getContext());
+		adapter.setOnImageClickedListener(this);
 	}
 
 	@Nullable
@@ -96,5 +101,10 @@ public class ImageGridFragment extends HttpFragment {
 				return false;
 			}
 		}, wr, new ItemsProcessor());
+	}
+
+	@Override
+	public void onImageClicked(Item item) {
+		detailFragment.showWithImage(getActivity().getSupportFragmentManager(), "", item);
 	}
 }
