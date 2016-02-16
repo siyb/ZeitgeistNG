@@ -27,6 +27,7 @@ dependencies {
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile files('./libs/YouTubeAndroidPlayerApi.jar')
+    compile 'commons-validator:commons-validator:1.4.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'at.diamonddogs:android-http:2.0.0'

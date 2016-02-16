@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/general_preferences_category_hostsettings">
+
+        <EditTextPreference
+            android:key="com.sphericalelephant.zeitgeistng.fragment.preference.PreferenceFragment.URL"
+            android:summary="@string/general_preferences_preference_url_summary"
+            android:title="@string/general_preferences_preference_url_title"/>
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/general_preferences_category_uisettings">
+
+        <EditTextPreference
+            android:key="com.sphericalelephant.zeitgeistng.fragment.preference.PreferenceFragment.COLUMNS"
+            android:summary="@string/general_preferences_preference_columns_summary"
+            android:title="@string/general_preferences_preference_columns_title"/>
+
+        <EditTextPreference
+            android:key="com.sphericalelephant.zeitgeistng.fragment.preference.PreferenceFragment.ITEMSPERPAGE"
+            android:summary="@string/general_preferences_preference_itemsperpage_summary"
+            android:title="@string/general_preferences_preference_itemsperpage_title"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>
