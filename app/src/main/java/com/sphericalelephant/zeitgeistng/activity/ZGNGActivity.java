@@ -22,10 +22,12 @@ public class ZGNGActivity extends AppCompatActivity implements IndeterminateProg
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_zgngactivity);
 
-		getSupportFragmentManager()
-				.beginTransaction()
-				.add(R.id.activity_zgngactivity_fl_container, ImageGridFragment.newInstance())
-				.commit();
+		if (getSupportFragmentManager().findFragmentById(R.id.activity_zgngactivity_fl_container) == null) {
+			getSupportFragmentManager()
+					.beginTransaction()
+					.add(R.id.activity_zgngactivity_fl_container, ImageGridFragment.newInstance())
+					.commit();
+		}
 	}
 
 	@Override
