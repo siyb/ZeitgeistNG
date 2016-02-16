@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.sphericalelephant.zeitgeistng.R;
 import com.sphericalelephant.zeitgeistng.data.Item;
 import com.sphericalelephant.zeitgeistng.data.Items;
-import com.sphericalelephant.zeitgeistng.fragment.imagedetail.ItemDetailFragment;
+import com.sphericalelephant.zeitgeistng.fragment.imagedetail.AbstractItemDetailFragment;
 import com.sphericalelephant.zeitgeistng.service.buider.WebRequestBuilder;
 import com.sphericalelephant.zeitgeistng.service.processor.ItemsProcessor;
 
@@ -103,6 +103,6 @@ public class ImageGridFragment extends HttpFragment implements ImageGridAdapter.
 
 	@Override
 	public void onImageClicked(Item item) {
-		ItemDetailFragment.newInstance().showWithImage(getActivity().getSupportFragmentManager(), "", item);
+		AbstractItemDetailFragment.showWithItem(getActivity().getSupportFragmentManager(), "", item);
 	}
 }
