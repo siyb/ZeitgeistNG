@@ -11,6 +11,7 @@ import android.widget.MediaController;
 import android.widget.VideoView;
 
 import com.sphericalelephant.zeitgeistng.R;
+import com.sphericalelephant.zeitgeistng.fragment.preference.PreferenceFacade;
 import com.sphericalelephant.zeitgeistng.service.buider.WebRequestBuilder;
 
 public class VideoDetailFragment extends AbstractItemDetailFragment {
@@ -25,7 +26,7 @@ public class VideoDetailFragment extends AbstractItemDetailFragment {
 
 	@Override
 	protected void showItem() {
-		final Uri videoUrl = Uri.parse(WebRequestBuilder.URL).buildUpon().appendPath(currentlyDisplayedItem.getImage().getImageUrl()).build();
+		final Uri videoUrl = PreferenceFacade.getInstance().getHostAddress(getContext()).buildUpon().appendPath(currentlyDisplayedItem.getImage().getImageUrl()).build();
 
 		videoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
 			@Override

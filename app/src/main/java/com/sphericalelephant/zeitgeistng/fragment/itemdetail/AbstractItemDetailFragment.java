@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.sphericalelephant.zeitgeistng.R;
 import com.sphericalelephant.zeitgeistng.data.Item;
-import com.sphericalelephant.zeitgeistng.service.buider.WebRequestBuilder;
+import com.sphericalelephant.zeitgeistng.fragment.preference.PreferenceFacade;
 
 public abstract class AbstractItemDetailFragment extends DialogFragment {
 
@@ -44,8 +44,7 @@ public abstract class AbstractItemDetailFragment extends DialogFragment {
 	}
 
 	protected Uri getUrlFromCurrentItem() {
-		return Uri
-				.parse(WebRequestBuilder.URL)
+		return PreferenceFacade.getInstance().getHostAddress(getContext())
 				.buildUpon()
 				.appendPath(currentlyDisplayedItem.getImage().getImageUrl())
 				.build();

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.sphericalelephant.zeitgeistng.R;
 import com.sphericalelephant.zeitgeistng.data.Item;
+import com.sphericalelephant.zeitgeistng.fragment.preference.PreferenceFacade;
 import com.sphericalelephant.zeitgeistng.service.buider.WebRequestBuilder;
 import com.sphericalelephant.zeitgeistng.view.SquaredImageView;
 import com.squareup.picasso.Picasso;
@@ -43,7 +44,7 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.View
 		Item.Image image = i.getImage();
 
 		if (i.getType() == Item.ItemType.IMAGE || i.getType() == Item.ItemType.VIDEO) {
-			String url = Uri.parse(WebRequestBuilder.URL).buildUpon().appendPath(image.getThumbnailUrl()).build().toString();
+			String url = PreferenceFacade.getInstance().getHostAddress(context).buildUpon().appendPath(image.getThumbnailUrl()).build().toString();
 			LOGGER.debug("Loading image with url: " + url);
 			Picasso.with(context).load(url).into(holder.imageView);
 			holder.imageView.setOnClickListener(new View.OnClickListener() {

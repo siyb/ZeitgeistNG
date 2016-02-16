@@ -3,6 +3,7 @@ package com.sphericalelephant.zeitgeistng.service.buider;
 import android.content.Context;
 import android.net.Uri;
 
+import com.sphericalelephant.zeitgeistng.fragment.preference.PreferenceFacade;
 import com.sphericalelephant.zeitgeistng.service.processor.ItemsProcessor;
 
 import at.diamonddogs.builder.WebRequestBuilder.ConnectionTimeout;
@@ -13,11 +14,13 @@ import at.diamonddogs.data.dataobjects.WebRequest;
 
 public class WebRequestBuilder {
 
-	// TODO: make configurable / remove all references to this field
-	public static final String URL = "http://zeitgeist.li/";
-
 	private final at.diamonddogs.builder.WebRequestBuilder webRequestBuilder =
 			new at.diamonddogs.builder.WebRequestBuilder(new WebRequestBuilderDefaultConfig());
+	private final Context context;
+
+	public WebRequestBuilder(Context context) {
+		this.context = context;
+	}
 
 	private at.diamonddogs.builder.WebRequestBuilder newBuilder() {
 		return newBuilder(null);
@@ -42,7 +45,7 @@ public class WebRequestBuilder {
 
 	public WebRequest getItemsRequest(Context c, int page, int itemsPerPage) {
 		// @formatter:off
-		Uri.Builder urlBuilder = Uri.parse(URL).buildUpon();
+		Uri.Builder urlBuilder = PreferenceFacade.getInstance().getHostAddress(context).buildUpon();
 		urlBuilder.appendQueryParameter("page", String.valueOf(page));
 		if (itemsPerPage != -1) urlBuilder.appendQueryParameter("per_page",String.valueOf(itemsPerPage));
 		WebRequest wr = newBuilder()
@@ -60,7 +63,7 @@ public class WebRequestBuilder {
 
 	public WebRequest getItemRequest(Context c, int id) {
 		// @formatter:off
-		String url = Uri.parse(URL).buildUpon().appendPath(String.valueOf(id)).build().toString();
+		String url = PreferenceFacade.getInstance().getHostAddress(context).buildUpon().appendPath(String.valueOf(id)).build().toString();
 		WebRequest wr = newBuilder()
 			.setUrl(url)
 			.setType(WebRequest.Type.GET)

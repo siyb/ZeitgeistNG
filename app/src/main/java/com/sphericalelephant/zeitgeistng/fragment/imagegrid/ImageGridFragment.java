@@ -84,7 +84,7 @@ public class ImageGridFragment extends HttpFragment implements ImageGridAdapter.
 
 	private void loadItems() {
 		loading = true;
-		WebRequestBuilder wrb = new WebRequestBuilder();
+		WebRequestBuilder wrb = new WebRequestBuilder(getContext());
 		WebRequest wr = wrb.getItemsRequest(getContext(), currentPage, ITEMS_PER_PAGE);
 		assister.runWebRequest(new Handler.Callback() {
 			@Override
