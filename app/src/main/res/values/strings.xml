@@ -5,4 +5,5 @@
     <string name="fragment_itemdetailfragment_error_normalvideo">Error while playing the video, please try to pick an app to play the video instead!</string>
     <string name="fragment_itemdetailfragment_error_unknownhoster">Unkown video hoster</string>
     <string name="fragment_itemdetailfragment_error_youtubeplayerinit">Could not initialize youtube player :(</string>
+    <string name="fragment_itemdetailfragment_openvideowith">Open Video with...</string>
 </resources>

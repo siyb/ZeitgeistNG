@@ -1,5 +1,6 @@
 package com.sphericalelephant.zeitgeistng.fragment.imagedetail;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -64,10 +65,11 @@ public class ItemDetailFragment extends DialogFragment {
 				.add(R.id.fragment_imagedetailfragment_fl_ytcontainer, youtubePlayer)
 				.commit();
 		// TODO: make api key configurable
-		youtubePlayer.initialize("", new YouTubePlayer.OnInitializedListener() {
+		youtubePlayer.initialize("AIzaSyDowzbO_pHNexJPFMTX60oO-sazwSwDaZo", new YouTubePlayer.OnInitializedListener() {
 			@Override
 			public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
 				player = youTubePlayer;
+				showItem();
 			}
 
 			@Override
@@ -78,16 +80,11 @@ public class ItemDetailFragment extends DialogFragment {
 				//			youTubeInitializationResult.getErrorDialog(getActivity(), 1).show();
 				//		} else {
 				player = null;
+				showItem();
 				//		}
 			}
 		});
 		return v;
-	}
-
-    @Override
-    public void onResume() {
-        super.onResume();
-		showItem();
 	}
 
 	private void showItem() {
@@ -110,7 +107,6 @@ public class ItemDetailFragment extends DialogFragment {
 		}
 		hideViewsAccoringToType(MediaType.IMAGE);
 		currentlyDisplayedItem = item;
-		showItem();
 	}
 
 	private void showVideo() {
@@ -119,29 +115,30 @@ public class ItemDetailFragment extends DialogFragment {
 		}
 
 		if (currentlyDisplayedItem.getMimetype().matches("video/.*")) { // regular video
+			final Uri videoUrl = Uri.parse(WebRequestBuilder.URL).buildUpon().appendPath(currentlyDisplayedItem.getImage().getImageUrl()).build();
+
 			hideViewsAccoringToType(MediaType.VIDEO);
 			imageView.setVisibility(View.INVISIBLE);
 			videoView.setVisibility(View.VISIBLE);
 			videoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
 				@Override
 				public boolean onError(MediaPlayer mp, int what, int extra) {
-					handleUnknowFormat(R.string.fragment_itemdetailfragment_error_normalvideo);
+					handleUnknowFormat(videoUrl, R.string.fragment_itemdetailfragment_error_normalvideo);
 					return true;
 				}
 			});
-			videoView.setVideoURI(Uri.parse(currentlyDisplayedItem.getSource()));
-
-
+			videoView.setVideoURI(videoUrl);
 		} else { // check for yt video
-			String youtubeVideoId = YouTubeUrlParser.getInstance().getVideoId(currentlyDisplayedItem.getSource());
+			String sourceUrl = currentlyDisplayedItem.getSource();
+			String youtubeVideoId = YouTubeUrlParser.getInstance().getVideoId(sourceUrl);
 			if (youtubeVideoId == null) {
-				handleUnknowFormat(R.string.fragment_itemdetailfragment_error_unknownhoster);
+				handleUnknowFormat(sourceUrl, R.string.fragment_itemdetailfragment_error_unknownhoster);
 				return;
 			}
 
 			hideViewsAccoringToType(MediaType.VIDEO_YOUTUBE);
 			if (player == null) { // if player could not be initialized
-				handleUnknowFormat(R.string.fragment_itemdetailfragment_error_youtubeplayerinit);
+				handleUnknowFormat(sourceUrl, R.string.fragment_itemdetailfragment_error_youtubeplayerinit);
 				return;
 			}
 
@@ -149,9 +146,22 @@ public class ItemDetailFragment extends DialogFragment {
 		}
 	}
 
-	private void handleUnknowFormat(@StringRes int message) {
+	private void handleUnknowFormat(@NonNull Uri videoUrl, @StringRes int message) {
+		handleUnknowFormat(videoUrl.toString(), message);
+	}
+
+	private void handleUnknowFormat(@NonNull String videoUrl, @StringRes int message) {
 		Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
 		dismiss();
+
+		Uri u = Uri.parse(videoUrl);
+		Intent intent = new Intent(Intent.ACTION_VIEW, u);
+		intent.setDataAndType(u, "video/*");
+		Intent chooser = Intent.createChooser(intent, getString(R.string.fragment_itemdetailfragment_openvideowith));
+
+		if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+			startActivity(chooser);
+		}
 	}
 
     private void showItemImage() {
