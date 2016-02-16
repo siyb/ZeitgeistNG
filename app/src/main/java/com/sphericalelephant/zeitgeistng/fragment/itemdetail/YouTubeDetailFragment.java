@@ -41,7 +41,7 @@ public class YouTubeDetailFragment extends AbstractItemDetailFragment {
 			}
 		});
 
-		return inflater.inflate(R.layout.fragment_videodetailfragment, container, false);
+		return inflater.inflate(R.layout.fragment_youtubevideofragment, container, false);
 	}
 
 	@Override
