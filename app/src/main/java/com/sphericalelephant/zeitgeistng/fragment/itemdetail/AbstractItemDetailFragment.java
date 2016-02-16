@@ -1,4 +1,4 @@
-package com.sphericalelephant.zeitgeistng.fragment.imagedetail;
+package com.sphericalelephant.zeitgeistng.fragment.itemdetail;
 
 import android.content.Intent;
 import android.net.Uri;
