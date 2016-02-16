@@ -44,7 +44,7 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.View
 
 		if (i.getType() == Item.ItemType.IMAGE || i.getType() == Item.ItemType.VIDEO) {
 			String url = Uri.parse(WebRequestBuilder.URL).buildUpon().appendPath(image.getThumbnailUrl()).build().toString();
-			LOGGER.info("Loading image with url: " + url);
+			LOGGER.debug("Loading image with url: " + url);
 			Picasso.with(context).load(url).into(holder.imageView);
 			holder.imageView.setOnClickListener(new View.OnClickListener() {
 				@Override
