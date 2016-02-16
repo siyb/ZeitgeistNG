@@ -26,8 +26,6 @@ public class ImageGridFragment extends HttpFragment implements ImageGridAdapter.
 	private static final int SPAN_COUNT = 5;
 	private static final int ITEMS_PER_PAGE = 100;
 
-	private ItemDetailFragment detailFragment = ItemDetailFragment.newInstance();
-
 	private RecyclerView recyclerView;
 	private GridLayoutManager gridLayoutManager;
 
@@ -105,6 +103,6 @@ public class ImageGridFragment extends HttpFragment implements ImageGridAdapter.
 
 	@Override
 	public void onImageClicked(Item item) {
-		detailFragment.showWithImage(getActivity().getSupportFragmentManager(), "", item);
+		ItemDetailFragment.newInstance().showWithImage(getActivity().getSupportFragmentManager(), "", item);
 	}
 }
