@@ -37,7 +37,7 @@ public class ZGNGActivity extends AppCompatActivity implements IndeterminateProg
 		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.general_openhamburger, R.string.general_closehamburger);
 
 		drawerLayout.setDrawerListener(drawerToggle);
-		
+
 		ActionBar ab = getSupportActionBar();
 
 		if (ab != null) {
