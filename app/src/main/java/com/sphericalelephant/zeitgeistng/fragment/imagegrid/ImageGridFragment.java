@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.sphericalelephant.zeitgeistng.R;
 import com.sphericalelephant.zeitgeistng.data.Item;
 import com.sphericalelephant.zeitgeistng.data.Items;
-import com.sphericalelephant.zeitgeistng.fragment.imagedetail.ImageDetailFragment;
+import com.sphericalelephant.zeitgeistng.fragment.imagedetail.ItemDetailFragment;
 import com.sphericalelephant.zeitgeistng.service.buider.WebRequestBuilder;
 import com.sphericalelephant.zeitgeistng.service.processor.ItemsProcessor;
 
@@ -26,7 +26,7 @@ public class ImageGridFragment extends HttpFragment implements ImageGridAdapter.
 	private static final int SPAN_COUNT = 5;
 	private static final int ITEMS_PER_PAGE = 100;
 
-	private ImageDetailFragment detailFragment = ImageDetailFragment.newInstance();
+	private ItemDetailFragment detailFragment = ItemDetailFragment.newInstance();
 
 	private RecyclerView recyclerView;
 	private GridLayoutManager gridLayoutManager;

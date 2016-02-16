@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.sphericalelephant.zeitgeistng.R;
 import com.sphericalelephant.zeitgeistng.data.Item;
-import com.sphericalelephant.zeitgeistng.fragment.imagedetail.ImageDetailFragment;
 import com.sphericalelephant.zeitgeistng.service.buider.WebRequestBuilder;
 import com.sphericalelephant.zeitgeistng.view.SquaredImageView;
 import com.squareup.picasso.Picasso;
