@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.MediaController;
 import android.widget.VideoView;
 
 import com.sphericalelephant.zeitgeistng.R;
@@ -34,5 +35,7 @@ public class VideoDetailFragment extends AbstractItemDetailFragment {
 			}
 		});
 		videoView.setVideoURI(videoUrl);
+		videoView.setMediaController(new MediaController(getContext()));
+		videoView.start();
 	}
 }
