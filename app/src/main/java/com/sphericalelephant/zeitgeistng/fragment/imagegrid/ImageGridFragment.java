@@ -32,7 +32,7 @@ public class ImageGridFragment extends HttpFragment implements ImageGridAdapter.
 	private ImageGridAdapter adapter;
 
 	// TODO: save in instancestate or something
-	private int currentPage = 0;
+	private int currentPage = 1;
 	private boolean loading = true;
 
 	public static ImageGridFragment newInstance() {
