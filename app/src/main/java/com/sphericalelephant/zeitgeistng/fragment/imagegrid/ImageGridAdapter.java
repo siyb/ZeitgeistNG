@@ -1,7 +1,6 @@
 package com.sphericalelephant.zeitgeistng.fragment.imagegrid;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import com.sphericalelephant.zeitgeistng.R;
 import com.sphericalelephant.zeitgeistng.data.Item;
 import com.sphericalelephant.zeitgeistng.fragment.preference.PreferenceFacade;
-import com.sphericalelephant.zeitgeistng.service.buider.WebRequestBuilder;
 import com.sphericalelephant.zeitgeistng.view.SquaredImageView;
 import com.squareup.picasso.Picasso;
 
@@ -69,7 +67,7 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.View
 		notifyDataSetChanged();
 	}
 
-	protected static final class ViewHolder extends RecyclerView.ViewHolder {
+	static final class ViewHolder extends RecyclerView.ViewHolder {
 		private SquaredImageView imageView;
 
 		public ViewHolder(View itemView) {
