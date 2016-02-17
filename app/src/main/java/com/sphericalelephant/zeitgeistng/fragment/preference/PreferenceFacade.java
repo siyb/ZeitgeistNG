@@ -10,6 +10,7 @@ public class PreferenceFacade {
 	 static final String KEY_ITEMSPERPAGE = "com.sphericalelephant.zeitgeistng.fragment.preference.PreferenceFragment.ITEMSPERPAGE";
 	 static final String KEY_COLUMNS = "com.sphericalelephant.zeitgeistng.fragment.preference.PreferenceFragment.COLUMNS";
 	 static final String KEY_URL = "com.sphericalelephant.zeitgeistng.fragment.preference.PreferenceFragment.URL";
+	static final String KEY_LOGIN = "com.sphericalelephant.zeitgeistng.fragment.preference.PreferenceFragment.LOGIN";
 
 	private static final String DEFAULT_ZEITGEIST_URL = "http://zeitgeist.li/";
 	private static final int DEFAULT_ITEMSPERPAGE = 100;

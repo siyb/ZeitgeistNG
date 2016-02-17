@@ -6,7 +6,7 @@
     <string name="fragment_itemdetailfragment_error_unknownhoster">Unkown video hoster</string>
     <string name="fragment_itemdetailfragment_error_youtubeplayerinit">Could not initialize youtube player :(</string>
     <string name="fragment_itemdetailfragment_openvideowith">Open Video with...</string>
-    <string name="general_preferences_category_hostsettings">Host Settings</string>
+    <string name="general_preferences_category_hostsettings">Host and account settings</string>
     <string name="general_preferences_preference_url_title">Url</string>
     <string name="general_preferences_preference_url_summary">The base url of your Zeitgeist instance.</string>
     <string name="general_preferences_category_uisettings">UI Settings</string>
@@ -15,4 +15,8 @@
     <string name="general_preferences_preference_itemsperpage_title">Items per page</string>
     <string name="general_preferences_preference_itemsperpage_summary">The number of items to load at a time.</string>
     <string name="fragment_settingsfragment_invalidvalue">Invalid value for setting</string>
+    <string name="general_preferences_preference_login_title">Login</string>
+    <string name="general_preferences_preference_login_summary">Press here to login into Zeitgeist.</string>
+    <string name="fragment_settingsfragment_scanaccesscode">Scan Access Code</string>
+    <string name="activity_zgngactivity_settings">Settings</string>
 </resources>

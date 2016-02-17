@@ -8,6 +8,11 @@
             android:summary="@string/general_preferences_preference_url_summary"
             android:title="@string/general_preferences_preference_url_title"/>
 
+        <Preference
+            android:key="com.sphericalelephant.zeitgeistng.fragment.preference.PreferenceFragment.LOGIN"
+            android:summary="@string/general_preferences_preference_login_summary"
+            android:title="@string/general_preferences_preference_login_title"/>
+
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/general_preferences_category_uisettings">

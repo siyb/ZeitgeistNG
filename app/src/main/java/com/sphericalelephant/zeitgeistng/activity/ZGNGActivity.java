@@ -7,20 +7,21 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.sphericalelephant.zeitgeistng.R;
 import com.sphericalelephant.zeitgeistng.fragment.imagegrid.ImageGridFragment;
+import com.sphericalelephant.zeitgeistng.fragment.preference.SettingsFragment;
 
 import at.diamonddogs.ui.annotation.UiAnnotationProcessor;
 import at.diamonddogs.ui.receiver.IndeterminateProgressControl;
 
 public class ZGNGActivity extends AppCompatActivity implements IndeterminateProgressControl {
 	private ProgressBar progressBar;
-	private DrawerLayout drawerLayout;
-
 	private ActionBarDrawerToggle drawerToggle;
 
 	@Override
@@ -30,6 +31,8 @@ public class ZGNGActivity extends AppCompatActivity implements IndeterminateProg
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.activity_zgngactivity_tb_tabs);
 		setSupportActionBar(toolbar);
+
+		DrawerLayout drawerLayout;
 
 		drawerLayout = (DrawerLayout) findViewById(R.id.activity_zgngactivity_dl_drawerlayout);
 		progressBar = (ProgressBar) findViewById(R.id.activity_zgngactivity_pb_progress);
@@ -66,8 +69,25 @@ public class ZGNGActivity extends AppCompatActivity implements IndeterminateProg
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.activity_zgngactivity, menu);
+		return true;
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+		if (drawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		} else if (item.getItemId() == R.id.activity_zgngactivity_settings) {
+			getSupportFragmentManager()
+					.beginTransaction()
+					.replace(R.id.activity_zgngactivity_fl_container, SettingsFragment.newInstance())
+					.addToBackStack("")
+					.commit();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
