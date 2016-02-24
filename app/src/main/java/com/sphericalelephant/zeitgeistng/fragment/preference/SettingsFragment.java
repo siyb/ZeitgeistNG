@@ -25,6 +25,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.general_preferences);
 		findPreference(PreferenceFacade.KEY_LOGIN).setOnPreferenceClickListener(this);
+		findPreference(PreferenceFacade.KEY_ITEMSPERPAGE).setOnPreferenceChangeListener(this);
+		findPreference(PreferenceFacade.KEY_COLUMNS).setOnPreferenceChangeListener(this);
+		findPreference(PreferenceFacade.KEY_LOGIN).setOnPreferenceChangeListener(this);
+		findPreference(PreferenceFacade.KEY_URL).setOnPreferenceChangeListener(this);
 	}
 
 	@Override
@@ -71,7 +75,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 			case PreferenceFacade.KEY_URL:
 				return urlValidator.isValid(newValue.toString());
 			default:
-				return false;
+				return true;
 		}
 	}
 }
