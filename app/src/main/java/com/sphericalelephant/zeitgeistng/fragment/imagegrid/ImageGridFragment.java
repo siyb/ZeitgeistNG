@@ -14,6 +14,7 @@ import com.sphericalelephant.zeitgeistng.R;
 import com.sphericalelephant.zeitgeistng.data.Item;
 import com.sphericalelephant.zeitgeistng.data.Items;
 import com.sphericalelephant.zeitgeistng.fragment.itemdetail.AbstractItemDetailFragment;
+import com.sphericalelephant.zeitgeistng.fragment.preference.PreferenceFacade;
 import com.sphericalelephant.zeitgeistng.service.buider.WebRequestBuilder;
 import com.sphericalelephant.zeitgeistng.service.processor.ItemsProcessor;
 
@@ -23,7 +24,6 @@ import at.diamonddogs.ui.fragment.HttpFragment;
 
 public class ImageGridFragment extends HttpFragment implements ImageGridAdapter.OnImageClickedListener {
 	// TODO: maybe make this configurable
-	private static final int SPAN_COUNT = 5;
 	private static final int ITEMS_PER_PAGE = 100;
 
 	private RecyclerView recyclerView;
@@ -50,7 +50,7 @@ public class ImageGridFragment extends HttpFragment implements ImageGridAdapter.
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_imagegridfragment, container, false);
-		gridLayoutManager = new GridLayoutManager(getContext(), SPAN_COUNT);
+		gridLayoutManager = new GridLayoutManager(getContext(), PreferenceFacade.getInstance().getColumns(getContext()));
 		recyclerView.setLayoutManager(gridLayoutManager);
 		recyclerView.setAdapter(adapter);
 		return recyclerView;
