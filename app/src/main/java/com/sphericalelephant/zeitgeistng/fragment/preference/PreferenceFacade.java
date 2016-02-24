@@ -13,8 +13,8 @@ public class PreferenceFacade {
 	static final String KEY_LOGIN = "com.sphericalelephant.zeitgeistng.fragment.preference.PreferenceFragment.LOGIN";
 
 	private static final String DEFAULT_ZEITGEIST_URL = "http://zeitgeist.li/";
-	private static final int DEFAULT_ITEMSPERPAGE = 100;
-	private static final int DEFAUL_COLUMNS = 100;
+	private static final String DEFAULT_ITEMSPERPAGE = "100";
+	private static final String DEFAULT_COLUMNS = "2";
 
 	private static PreferenceFacade INSTANCE;
 
@@ -36,10 +36,10 @@ public class PreferenceFacade {
 	}
 
 	public int getItemsPerPage(Context c) {
-		return PreferenceManager.getDefaultSharedPreferences(c).getInt(KEY_ITEMSPERPAGE, DEFAULT_ITEMSPERPAGE);
+		return Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(c).getString(KEY_ITEMSPERPAGE, DEFAULT_ITEMSPERPAGE));
 	}
 
 	public int getColumns(Context c) {
-		return PreferenceManager.getDefaultSharedPreferences(c).getInt(KEY_COLUMNS, DEFAUL_COLUMNS);
+		return Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(c).getString(KEY_COLUMNS, DEFAULT_COLUMNS));
 	}
 }
