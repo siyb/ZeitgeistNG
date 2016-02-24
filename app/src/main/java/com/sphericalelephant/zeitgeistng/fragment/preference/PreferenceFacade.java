@@ -14,7 +14,7 @@ public class PreferenceFacade {
 
 	private static final String DEFAULT_ZEITGEIST_URL = "http://zeitgeist.li/";
 	private static final String DEFAULT_ITEMSPERPAGE = "100";
-	private static final String DEFAULT_COLUMNS = "2";
+	private static final String DEFAULT_COLUMNS = "5";
 
 	private static PreferenceFacade INSTANCE;
 
