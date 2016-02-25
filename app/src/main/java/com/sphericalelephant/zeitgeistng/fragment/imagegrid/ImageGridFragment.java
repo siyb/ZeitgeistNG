@@ -2,7 +2,7 @@ package com.sphericalelephant.zeitgeistng.fragment.imagegrid;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,7 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.gun0912.tedpicker.ImagePickerActivity;
+import com.sangcomz.fishbun.FishBun;
+import com.sangcomz.fishbun.define.Define;
 import com.sphericalelephant.zeitgeistng.R;
 import com.sphericalelephant.zeitgeistng.data.Item;
 import com.sphericalelephant.zeitgeistng.data.Items;
@@ -22,7 +23,7 @@ import com.sphericalelephant.zeitgeistng.fragment.preference.PreferenceFacade;
 import com.sphericalelephant.zeitgeistng.service.buider.WebRequestBuilder;
 import com.sphericalelephant.zeitgeistng.service.processor.ItemsProcessor;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import at.diamonddogs.data.dataobjects.WebRequest;
 import at.diamonddogs.service.processor.ServiceProcessorMessageUtil;
@@ -30,6 +31,7 @@ import at.diamonddogs.ui.fragment.HttpFragment;
 
 public class ImageGridFragment extends HttpFragment implements ImageGridAdapter.OnImageClickedListener {
 	private static final int INTENT_REQUESTCODE_IMAGEPICK = 1;
+	private static final int PICKER_MAX_IMAGES = 5;// TODO: maybe this should be configurable by the user
 
 
 	private RecyclerView recyclerView;
@@ -60,8 +62,15 @@ public class ImageGridFragment extends HttpFragment implements ImageGridAdapter.
 		v.findViewById(R.id.fragment_imagegridfragment_fab_addimage).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getContext(), ImagePickerActivity.class);
-				startActivityForResult(intent, INTENT_REQUESTCODE_IMAGEPICK);
+				FishBun.with(ImageGridFragment.this)
+						.setRequestCode(INTENT_REQUESTCODE_IMAGEPICK)
+						.setCamera(true)
+						.setPickerCount(PICKER_MAX_IMAGES)
+						.setActionBarColor(
+								getResources().getColor(R.color.colorPrimary),
+								getResources().getColor(R.color.colorPrimaryDark)
+						)
+						.startAlbum();
 			}
 		});
 		gridLayoutManager = new GridLayoutManager(getContext(), PreferenceFacade.getInstance().getColumns(getContext()));
@@ -72,8 +81,8 @@ public class ImageGridFragment extends HttpFragment implements ImageGridAdapter.
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == INTENT_REQUESTCODE_IMAGEPICK && resultCode == Activity.RESULT_OK ) {
-			ArrayList<Uri> image_uris = data.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
+		if (requestCode == INTENT_REQUESTCODE_IMAGEPICK && resultCode == Activity.RESULT_OK) {
+			List<String> paths = data.getStringArrayListExtra(Define.INTENT_PATH);
 		}
 	}
 
