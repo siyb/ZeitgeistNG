@@ -1,5 +1,8 @@
 package com.sphericalelephant.zeitgeistng.fragment.imagegrid;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gun0912.tedpicker.ImagePickerActivity;
 import com.sphericalelephant.zeitgeistng.R;
 import com.sphericalelephant.zeitgeistng.data.Item;
 import com.sphericalelephant.zeitgeistng.data.Items;
@@ -18,13 +22,15 @@ import com.sphericalelephant.zeitgeistng.fragment.preference.PreferenceFacade;
 import com.sphericalelephant.zeitgeistng.service.buider.WebRequestBuilder;
 import com.sphericalelephant.zeitgeistng.service.processor.ItemsProcessor;
 
+import java.util.ArrayList;
+
 import at.diamonddogs.data.dataobjects.WebRequest;
 import at.diamonddogs.service.processor.ServiceProcessorMessageUtil;
 import at.diamonddogs.ui.fragment.HttpFragment;
 
 public class ImageGridFragment extends HttpFragment implements ImageGridAdapter.OnImageClickedListener {
-	// TODO: maybe make this configurable
-	private static final int ITEMS_PER_PAGE = 100;
+	private static final int INTENT_REQUESTCODE_IMAGEPICK = 1;
+
 
 	private RecyclerView recyclerView;
 	private GridLayoutManager gridLayoutManager;
@@ -49,11 +55,26 @@ public class ImageGridFragment extends HttpFragment implements ImageGridAdapter.
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_imagegridfragment, container, false);
+		View v = inflater.inflate(R.layout.fragment_imagegridfragment, container, false);
+		recyclerView = (RecyclerView) v.findViewById(R.id.fragment_imagegridfragment_rv_imagegrid);
+		v.findViewById(R.id.fragment_imagegridfragment_fab_addimage).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getContext(), ImagePickerActivity.class);
+				startActivityForResult(intent, INTENT_REQUESTCODE_IMAGEPICK);
+			}
+		});
 		gridLayoutManager = new GridLayoutManager(getContext(), PreferenceFacade.getInstance().getColumns(getContext()));
 		recyclerView.setLayoutManager(gridLayoutManager);
 		recyclerView.setAdapter(adapter);
-		return recyclerView;
+		return v;
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == INTENT_REQUESTCODE_IMAGEPICK && resultCode == Activity.RESULT_OK ) {
+			ArrayList<Uri> image_uris = data.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
+		}
 	}
 
 	@Override
@@ -85,7 +106,7 @@ public class ImageGridFragment extends HttpFragment implements ImageGridAdapter.
 	private void loadItems() {
 		loading = true;
 		WebRequestBuilder wrb = new WebRequestBuilder(getContext());
-		WebRequest wr = wrb.getItemsRequest(getContext(), currentPage, ITEMS_PER_PAGE);
+		WebRequest wr = wrb.getItemsRequest(getContext(), currentPage, PreferenceFacade.getInstance().getItemsPerPage(getContext()));
 		assister.runWebRequest(new Handler.Callback() {
 			@Override
 			public boolean handleMessage(Message msg) {
