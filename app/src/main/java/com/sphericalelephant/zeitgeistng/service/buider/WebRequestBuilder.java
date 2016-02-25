@@ -12,7 +12,6 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import at.diamonddogs.builder.WebRequestBuilder.ConnectionTimeout;
 import at.diamonddogs.builder.WebRequestBuilder.ReadTimeout;
@@ -26,7 +25,7 @@ public class WebRequestBuilder {
 			new at.diamonddogs.builder.WebRequestBuilder(new WebRequestBuilderDefaultConfig());
 	private final Context context;
 
-	private final String URL_PATH_NEW = "new";
+	private static final String URL_PATH_NEW = "new";
 
 	public WebRequestBuilder(Context context) {
 		this.context = context;
@@ -49,30 +48,44 @@ public class WebRequestBuilder {
 				.setConnectionTimeout(ConnectionTimeout.MEDIUM);
 	}
 
-	public WebRequest getNewItemRequest(Context c, String[] tags, boolean announce, String[] remoteUrls) {
-		WebRequest wr = getNewItemRequest(c, tags, announce);
-		addUploadUrl(wr, remoteUrls);
-		return wr;
-	}
+	//public WebRequest getNewItemRequest(String[] tags, boolean announce, String[] remoteUrls) {
+	//	WebRequest wr = getNewItemRequest(tags, announce);
+	//	addUploadUrl(wr, remoteUrls);
+	//	return wr;
+	//}
 
-	public WebRequest getNewItemRequest(Context c, String[] tags, boolean announce, File[] files) {
-		WebRequest wr = getNewItemRequest(c, tags, announce);
+	public WebRequest getNewItemRequest(String[] tags, boolean announce, File[] files) {
+		WebRequest wr = getNewItemRequest(tags, announce);
 		addUploadFiles(wr, files);
 		return wr;
 	}
 
-	private WebRequest getNewItemRequest(Context c, String[] tags, boolean announce) {
+	public WebRequest getNewItemRequest(String[] tags, boolean announce, String[] files) {
+		WebRequest wr = getNewItemRequest(tags, announce);
+		File[] fileFiles = new File[files.length];
+		for (int i = 0; i < files.length; i++) {
+			fileFiles[i] = new File(files[i]);
+		}
+		addUploadFiles(wr, fileFiles);
+		return wr;
+	}
+
+	private WebRequest getNewItemRequest(String[] tags, boolean announce) {
 		Uri.Builder urlBuilder = PreferenceFacade.getInstance().getHostAddress(context).buildUpon();
 		Uri u = urlBuilder.appendPath(URL_PATH_NEW).build();
 		WebRequest wr = newBuilder()
 				.setUrl(u)
 				.setType(WebRequest.Type.POST)
+				.withProcessorId(ItemsProcessor.ID)
 				.setCacheTime(CacheInformation.CACHE_NO)
 				.setReadTimeout(ReadTimeout.LONG)
 				.setConnectionTimeout(ConnectionTimeout.LONG)
 				.getWebRequest();
 		addAnnounce(wr, announce);
-		addTags(wr, tags);
+		if (tags != null) {
+			addTags(wr, tags);
+		}
+		wr.addHeaderField("Accept", "application/json");
 		return wr;
 	}
 

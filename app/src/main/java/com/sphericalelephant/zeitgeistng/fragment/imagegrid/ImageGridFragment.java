@@ -2,7 +2,6 @@ package com.sphericalelephant.zeitgeistng.fragment.imagegrid;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -83,6 +82,13 @@ public class ImageGridFragment extends HttpFragment implements ImageGridAdapter.
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == INTENT_REQUESTCODE_IMAGEPICK && resultCode == Activity.RESULT_OK) {
 			List<String> paths = data.getStringArrayListExtra(Define.INTENT_PATH);
+			WebRequestBuilder wrb = new WebRequestBuilder(getContext());
+			assister.runWebRequest(new Handler.Callback() {
+				@Override
+				public boolean handleMessage(Message msg) {
+					return false;
+				}
+			}, wrb.getNewItemRequest(null, false, paths.toArray(new String[paths.size()])), new ItemsProcessor());
 		}
 	}
 
@@ -109,6 +115,8 @@ public class ImageGridFragment extends HttpFragment implements ImageGridAdapter.
 					}
 				}
 			}
+
+			// TODO: hide floating view here as well
 		});
 	}
 
