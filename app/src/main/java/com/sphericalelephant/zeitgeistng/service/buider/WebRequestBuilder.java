@@ -2,13 +2,17 @@ package com.sphericalelephant.zeitgeistng.service.buider;
 
 import android.content.Context;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import com.sphericalelephant.zeitgeistng.fragment.preference.PreferenceFacade;
 import com.sphericalelephant.zeitgeistng.service.processor.ItemsProcessor;
 
 import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import at.diamonddogs.builder.WebRequestBuilder.ConnectionTimeout;
 import at.diamonddogs.builder.WebRequestBuilder.ReadTimeout;
@@ -46,11 +50,73 @@ public class WebRequestBuilder {
 	}
 
 	public WebRequest getNewItemRequest(Context c, String[] tags, boolean announce, String[] remoteUrls) {
-		return null;
+		WebRequest wr = getNewItemRequest(c, tags, announce);
+		addUploadUrl(wr, remoteUrls);
+		return wr;
 	}
 
 	public WebRequest getNewItemRequest(Context c, String[] tags, boolean announce, File[] files) {
-		return null;
+		WebRequest wr = getNewItemRequest(c, tags, announce);
+		addUploadFiles(wr, files);
+		return wr;
+	}
+
+	private WebRequest getNewItemRequest(Context c, String[] tags, boolean announce) {
+		Uri.Builder urlBuilder = PreferenceFacade.getInstance().getHostAddress(context).buildUpon();
+		Uri u = urlBuilder.appendPath(URL_PATH_NEW).build();
+		WebRequest wr = newBuilder()
+				.setUrl(u)
+				.setType(WebRequest.Type.POST)
+				.setCacheTime(CacheInformation.CACHE_NO)
+				.setReadTimeout(ReadTimeout.LONG)
+				.setConnectionTimeout(ConnectionTimeout.LONG)
+				.getWebRequest();
+		addAnnounce(wr, announce);
+		addTags(wr, tags);
+		return wr;
+	}
+
+	private boolean addAnnounce(WebRequest wr, boolean announce) {
+		MultipartEntity entity = getMultiPartEntity(wr);
+		try {
+			entity.addPart("announce", new StringBody(String.valueOf(announce)));
+			return true;
+		} catch (Throwable tr) {
+			return false;
+		}
+	}
+
+	private boolean addUploadUrl(WebRequest wr, String[] urls) {
+		MultipartEntity entity = getMultiPartEntity(wr);
+		for (String url : urls) {
+			try {
+				entity.addPart("remote_url[]", new StringBody(url));
+			} catch (Throwable tr) {
+				return false;
+			}
+		}
+		return true;
+
+	}
+
+	private boolean addUploadFiles(WebRequest wr, File[] files) {
+		MultipartEntity entity = getMultiPartEntity(wr);
+		for (File file : files) {
+			entity.addPart("image_upload[]", new FileBody(file));
+		}
+		wr.setHttpEntity(entity);
+		return true;
+
+	}
+
+	private boolean addTags(WebRequest wr, String[] tags) {
+		MultipartEntity entity = getMultiPartEntity(wr);
+		try {
+			entity.addPart("tags", new StringBody(TextUtils.join(" ", tags)));
+		} catch (Throwable tr) {
+			return false;
+		}
+		return true;
 	}
 
 	public WebRequest getItemsRequest(Context c, int page) {
