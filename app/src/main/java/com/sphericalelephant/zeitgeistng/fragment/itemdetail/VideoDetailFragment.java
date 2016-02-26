@@ -35,6 +35,7 @@ public class VideoDetailFragment extends AbstractItemDetailFragment {
 				return true;
 			}
 		});
+		videoView.setOnTouchListener(onTouchListener);
 		videoView.setVideoURI(videoUrl);
 		videoView.setMediaController(new MediaController(getContext()));
 		videoView.start();

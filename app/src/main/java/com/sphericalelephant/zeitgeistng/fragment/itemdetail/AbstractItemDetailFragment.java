@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -17,7 +19,8 @@ import com.sphericalelephant.zeitgeistng.fragment.preference.PreferenceFacade;
 
 public abstract class AbstractItemDetailFragment extends DialogFragment {
 
-
+	GestureDetector gestureDetector;
+	View.OnTouchListener onTouchListener;
 	Item currentlyDisplayedItem;
 
 	protected AbstractItemDetailFragment() {
@@ -29,6 +32,38 @@ public abstract class AbstractItemDetailFragment extends DialogFragment {
 		super.onCreate(savedInstanceState);
 		setStyle(STYLE_NO_TITLE, 0);
 		setCancelable(true);
+
+		onTouchListener = new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				return gestureDetector.onTouchEvent(event);
+			}
+		};
+
+		gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
+			@Override
+			public boolean onDown(MotionEvent e) {
+				return true; // required to register fling
+			}
+
+			@Override
+			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+				if (velocityX > 0) { // right
+					nextItem();
+				} else { // left
+					previousItem();
+				}
+				return true;
+			}
+		});
+	}
+
+	protected void previousItem() {
+
+	}
+
+	protected void nextItem() {
+
 	}
 
 	@Override

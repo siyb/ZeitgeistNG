@@ -3,7 +3,9 @@ package com.sphericalelephant.zeitgeistng.fragment.itemdetail;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,6 +20,7 @@ public class ImageDetailFragment extends AbstractItemDetailFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		imageView = (ImageView) inflater.inflate(R.layout.fragment_imagedetailfragment, container, false);
+		imageView.setOnTouchListener(onTouchListener);
 		return imageView;
 	}
 
